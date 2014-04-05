@@ -101,30 +101,6 @@ set directory=$HOME/temp//
 filetype plugin on
 syntax on
 
-"colorscheme neverland
-"colorscheme neverland-darker
-"colorscheme zenburn
-"colorscheme blue
-"colorscheme darkblue
-"colorscheme default
-"colorscheme delek
-"colorscheme desert
-"colorscheme elflord
-"colorscheme evening
-"colorscheme koehler
-"colorscheme morning
-"colorscheme murphy
-"colorscheme pablo
-"colorscheme peachpuff
-"colorscheme ron
-"colorscheme shine
-"colorscheme slate
-colorscheme torte
-"colorscheme vividchalk
-"colorscheme distinguished
-"colorscheme zellner
-
-
 " Windows-specific commands can go here
 "if has("win32") || has("win16")
 "    syntax on
@@ -163,27 +139,36 @@ noremap <silent> <leader>v :e! $MYVIMRC<CR>
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/public_html/'},
     \ {'path': 'c:\dropbox\other\wiki' }]
 
-"colorscheme dmb
-colorscheme torte
+
 "vim_please_jump_to_this_location
+"colorscheme dmb
 
 " Rating: A-
+"colorscheme torte
+"colorscheme elflord
+"colorscheme darkblue " very good
 "colorscheme spiderhawk " very good... maybe just annoyed about no ahk
 "colorscheme adrian " good, plus default color is green
 "colorscheme baycomb " maybe best so far, blues may be too similar in ahk
 "colorscheme greens " pretty damn good but the greys have to go
-"colorscheme wintersday " great but don't like in perl
+colorscheme wintersday " great but don't like in perl
 "colorscheme synic " another good one
 "colorscheme dante
 "colorscheme xterm16 " I like it a lot
 
-" Rating: A?
-"colorscheme darkblue
-"colorscheme astronaut
+" Rating: A? - None of these are dark bg, yet not light. Not sure if useful
 "colorscheme Blue2
+"colorscheme astronaut
+"colorscheme darkblue
 "colorscheme adaryn
+"colorscheme blue
 
 " Rating: B
+"colorscheme koehler " nice and bright, normal is white on black - boring
+"colorscheme murphy
+"colorscheme pablo
+"colorscheme ron
+"colorscheme desert
 "colorscheme understated " maybe too chill
 "colorscheme spectro "maybe too dim
 "colorscheme vividchalk " perl colors are orange / yellow too close
@@ -197,10 +182,18 @@ colorscheme torte
 
 " Rating: C
 "colorscheme 3dglasses " too blue
+"colorscheme evening
+"colorscheme slate
 
 " Rating: F
 "colorscheme 256-jungle " bright white bg wtf
 "colorscheme bluez " bright white bg wtf
+"colorscheme default
+"colorscheme delek
+"colorscheme morning
+"colorscheme peachpuff
+"colorscheme shine
+"colorscheme zellner
 
 
 function! FindeyFind ()
