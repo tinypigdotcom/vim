@@ -62,7 +62,7 @@ set backspace=2
 set bg=light
 set comments=b:#,:%,fb:-,n:>,n:)
 set expandtab
-set formatoptions=cqrt
+set textwidth=78
 set keywordprg=perldoc\ -f
 set laststatus=2
 set list
@@ -139,8 +139,6 @@ noremap <silent> <leader>v :e! $MYVIMRC<CR>
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/public_html/'},
     \ {'path': 'c:\dropbox\other\wiki' }]
 
-
-"vim_please_jump_to_this_location
 "colorscheme dmb
 
 " Rating: A-
@@ -507,7 +505,7 @@ augroup END
 " set comments+=fb:*                  "Star-space is a bullet
 " set comments+=fb:-                  "Dash-space is a bullets
 
-set formatoptions-=cro
+"set formatoptions-=cro
 
 set wrapmargin=2                            "Wrap 2 characters from the edge of the window
 set autoindent                              "Retain indentation on next line
@@ -684,8 +682,6 @@ set wildmode=list:longest,full      "Show list of completions
 set noshowmode                      "Suppress mode change messages
 
 set updatecount=10                  "Save buffer every 10 chars typed
-
-set textwidth=0                     "NO! Wrap at column 78
 
 " Keycodes and maps timeout in 3/10 sec...
 set timeout timeoutlen=300 ttimeoutlen=300
@@ -1575,3 +1571,4 @@ function! VimwikiLinkHandler(link) "{{{ Use Vim to open links with the
     endif
   endfunction " }}}
 
+set formatoptions=cqr
