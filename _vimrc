@@ -953,11 +953,11 @@ endfunction
 
 "=====[ Auto-setup for Perl scripts and modules ]===========
 
-augroup Perl_Setup
-    autocmd!
-    autocmd BufNewFile *.p[lm] 0r !file_template <afile>
-    autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
-augroup END
+"augroup Perl_Setup
+"    autocmd!
+"    autocmd BufNewFile *.p[lm] 0r !file_template <afile>
+"    autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
+"augroup END
 
 
 "=====[ Proper syntax highlighting for Rakudo files ]===========
