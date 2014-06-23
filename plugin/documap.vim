@@ -18,6 +18,7 @@ set cpo&vim
 
 " In your .vimrc:  Nmap <options> KEY  [DOC HERE]  EXPANSION HERE
 
+command! -nargs=+ Nnoremap call <SID>Define('Nnoremap', <q-args>)
 command! -nargs=+ Nmap call <SID>Define('Nmap', <q-args>)
 
 
@@ -83,7 +84,7 @@ endfunction
 
 " Show the documented mappings while editing...
 
-Nmap ;h [Print this list] :call <SID>ListMappings()<CR>
+Nnoremap ;h [Print this list] :call <SID>ListMappings()<CR>
 
 
 " Restore previous external compatibility options

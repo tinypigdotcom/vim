@@ -6,54 +6,53 @@
 " To figure out where this gets set
 " :verbose set backup?
 "
-" Output is
-"
-" nobackup
-"         Last set from C:\Program Files\Vim\vimrc
-"
 " Help came from:
+" * Damian Conway, "More Instantly Better Vim" - OSCON 2013
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" Folding configuration
-":set foldmethod=marker
-" Edit and uncomment next line if you want non-default marker
-":set foldmarker={{{,}}}
-":syntax enable
+" David Bradford's .vimrc VERSION=3.0
 "
-" David Bradford's .vimrc VERSION=apricot
 
-behave mswin
+" behave mswin " I don't know exactly what this does but I'm leaving it here
+" to remind myself in case not having it screws something up
 
 set statusline=%f%m\ %=Current:\ %-4l\ Total:\ %-4L
 
-let loaded_matchparen = 1
+let loaded_matchparen = 1 " disable matching parens
 
 cnoremap jk <c-c>
-"cnoremap <esc> <nop>
+cnoremap <esc> <nop>
 inoremap jk <esc>
-"inoremap <esc> <nop>
-"noremap : ;
+inoremap <esc> <nop>
+vnoremap jk <esc>
+vnoremap <esc> <nop>
+noremap : ;
 noremap ; :
 nmap <space> <c-space>
 
 map z @az
 
-":noremap <F3> a:.,$s/^/          /
-noremap <F4> :close<CR>
-noremap <F5> /TAGGY
-
+" change single quotes to double, but there should be a better way, like a
+" toggle
 noremap <F6> maF'r"f'r"`a
+
+" copy the current line and comment it out so we can save it while changing
+" the copy
 noremap <F7> yypkI#<ESC>j
+
+" use some emacs behaviors
 noremap <C-A> <Home>
 noremap <C-E> <End>
 
+" map tab to indent one level
 nnoremap <tab> I<tab><esc>
 nnoremap <s-tab> ^i<bs><esc>
 
 vnoremap <tab> >gv
 vnoremap <s-tab> <gv
 
+" this would be cool but not working for some reason
 iabbrev #!p #!/usr/bin/perl -w<CR><BS><CR>use strict;<CR><ESC>:filetype detect<CR>i
 
 set autoindent
@@ -63,15 +62,15 @@ set bg=light
 set comments=b:#,:%,fb:-,n:>,n:)
 set expandtab
 set textwidth=78
-set keywordprg=perldoc\ -f
+set keywordprg=:help
 set laststatus=2
 set list
 set listchars=tab:ωπ,trail:ά
 set backup
+set writebackup
 set nocompatible
 set nohlsearch
 set swapfile
-set writebackup
 set nonumber
 set ruler
 set scrolloff=3
@@ -84,12 +83,54 @@ set softtabstop=4
 set t_vb=
 set title
 set tabstop=4
-set undolevels=99
-set viminfo=%,'50,\"100,:100,n~/.viminfo
 set novisualbell
 set whichwrap=<,>,h,l
 set wildmenu
 set wildmode=list:longest,full
+set wrapmargin=3
+
+set titleold=
+
+set autowrite       "Save buffer automatically when changing files
+set autoread        "Always reload buffer when external changes detected
+
+set backspace=indent,eol,start      "BS past autoindents, line boundaries,
+                                    "     and even the start of insertion
+
+set fileformats=unix,mac,dos        "Handle Mac and DOS line-endings
+                                    "but prefer Unix endings
+
+
+set wildmode=list:longest,full      "Show list of completions
+                                    "  and complete as much as possible,
+                                    "  then iterate full completions
+
+set noshowmode                      "Suppress mode change messages
+
+set updatecount=10                  "Save buffer every 10 chars typed
+
+" Keycodes and maps timeout in 3/10 sec...
+set timeout timeoutlen=300 ttimeoutlen=300
+
+set ruler                           "Show cursor location info on status line
+
+"           +--Disable hlsearch while loading viminfo
+"           | +--Remember marks for last 50 files
+"           | |   +--Remember up to 10000 lines in each register
+"           | |   |      +--Remember up to 1MB in each register
+"           | |   |      |     +--Remember last 1000 search patterns
+"           | |   |      |     |     +---Remember last 1000 commands
+"           | |   |      |     |     |
+"           v v   v      v     v     v
+set viminfo=h,'50,<10000,s1000,/1000,:1000
+
+"====[ Use persistent undo ]=================
+
+if has('persistent_undo')
+    set undodir=$HOME/tmp/.VIM_UNDO_FILES
+    set undolevels=5000
+    set undofile
+endif
 
 let required_dir = $HOME.'/temp'
 if !isdirectory(required_dir)
@@ -109,22 +150,19 @@ syntax on
 "endif
 
 let mapleader = ';'
-noremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
-noremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
-noremap <silent> <leader>q :close<CR>
-noremap <silent> Q :q!<CR>
-noremap <silent> <leader>s :o c:\tusc\file\scratch.txt<CR>
-noremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
+nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
+nnoremap <silent> Q :q!<CR>
+nnoremap <silent> <leader>b :!./%<CR>
+nnoremap <silent> <leader>s :o c:\tusc\file\scratch.txt<CR>
+nnoremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>f :silent! call FindeyFind()<cr>
+nnoremap <silent> <leader>h :call <SID>ListMappings()<CR>
 set guicursor=a:block-Cursor
 
-"set guicursor+=a:blinkon0
-" set cursorline
 au GUIEnter * hi Cursor guibg=white
-"highlight CursorInverse   term=inverse
 au InsertLeave * set guicursor=a:block-Cursor
 au InsertEnter * set guicursor=a:hor20-Cursor
-"au CursorHoldI * stopinsert
-" allow choice for font:
 set guifont=Lucida_Console:h11:cDEFAULT
 
 " note that in order for MYVIMRC to be set correctly, it MATTERS where you
@@ -134,7 +172,7 @@ set guifont=Lucida_Console:h11:cDEFAULT
 " [...]
 "  system vimrc file: "$VIM\vimrc"
 "    user vimrc file: "$HOME\_vimrc"
-noremap <silent> <leader>v :e! $MYVIMRC<CR>
+nnoremap <silent> <leader>v :vsplit $MYVIMRC<cr>
 
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/public_html/'},
     \ {'path': 'c:\dropbox\other\wiki' }]
@@ -145,11 +183,11 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/public_html/'},
 "colorscheme torte
 "colorscheme elflord
 "colorscheme darkblue " very good
-"colorscheme spiderhawk " very good... maybe just annoyed about no ahk
+colorscheme spiderhawk " very good... maybe just annoyed about no ahk
 "colorscheme adrian " good, plus default color is green
 "colorscheme baycomb " maybe best so far, blues may be too similar in ahk
 "colorscheme greens " pretty damn good but the greys have to go
-colorscheme wintersday " great but don't like in perl
+"colorscheme wintersday " great but don't like in perl
 "colorscheme synic " another good one
 "colorscheme dante
 "colorscheme xterm16 " I like it a lot
@@ -195,7 +233,7 @@ colorscheme wintersday " great but don't like in perl
 
 
 function! FindeyFind ()
-    /vim_please_jump_to_this_location
+    /[v]im_please_jump_to_this_location
 endfunction
 
 autocmd BufRead  *   :silent! call FindeyFind()
@@ -212,13 +250,17 @@ function! InsertTabWrapper(direction)
     endif
 endfunction
 
-" These are all just playing around vim functions:
-function DisplayName(name)
+" Right now I want to use tab for indent, but this is still a great idea
+"inoremap <S-tab> <c-r>=InsertTabWrapper ("backward")<cr>
+"inoremap <tab> <c-r>=InsertTabWrapper ("forward")<cr>
+
+" BEGIN These are all just playing around vim functions:
+function! DisplayName(name)
     echom "Hello! My name is:"
     echom a:name
 endfunction
 
-function Varg(...)
+function! Varg(...)
   " if called via :call Varg("a","b")
   " 2 (# of args)
   echom a:0
@@ -227,9 +269,7 @@ function Varg(...)
   " ['a', 'b'] (list of all args)
   echo a:000
 endfunction
-
-"inoremap <S-tab> <c-r>=InsertTabWrapper ("backward")<cr>
-"inoremap <tab> <c-r>=InsertTabWrapper ("forward")<cr>
+" END These are all just playing around vim functions:
 
 au GUIEnter * simalt ~x
 
@@ -244,12 +284,12 @@ vmap  <expr>  D        DVB_Duplicate()
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 0
 
-" Damian Conway's vimrc starts here
+" Damian Conway's vimrc starts here (not really as I have moved some of it
+" above this line to keep it organized my way --dbradford)
 
 "====[ Ensure autodoc'd plugins are supported ]===========
 
 runtime plugin/autodoc.vim
-
 
 "====[ Work out what kind of file this is ]========
 
@@ -259,122 +299,20 @@ filetype plugin on
 
 autocmd BufNewFile,BufRead  *.t   setfiletype perl
 
-"=====[ Comments are important ]==================
-
-"highlight Comment term=bold ctermfg=white
-
-
 "=====[ Enable Nmap command for documented mappings ]================
 
 runtime plugin/documap.vim
 
-
 "====[ Edit and auto-update this config file and plugins ]==========
 
-"augroup VimReload
-"    autocmd!
-"    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-"augroup END
-"
-"Nmap <silent>  ;v   [Edit .vimrc]          :next $MYVIMRC<CR>
-"Nmap           ;vv  [Edit .vim/plugin/...] :next ~/.vim/plugin/
-
-
-"====[ Edit my temporary working files ]====================
-
-"Nmap tt  [Edit temporary files] :next ~/tmp/temporary_file
-
-
+augroup VimReload
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
 
 "=====[ Edit files in local bin directory ]========
 
-"Nmap ;b  [Edit ~/bin/...]  :next ~/bin/
-
-
-"====[ Go back to alternate file (but retain other g<whatever> mappings)]====
-
-"nmap g  :w<CR>:e #<CR>
-"
-"function! s:conditional_nnoremap ( name )
-"    if maparg(a:name, 'n') == ""
-"        execute 'nnoremap  <unique> ' . a:name . ' ' . a:name
-"    endif
-"endfunction
-"call s:conditional_nnoremap( 'g~' )
-"call s:conditional_nnoremap( 'g~~' )
-"call s:conditional_nnoremap( 'g~g~' )
-"call s:conditional_nnoremap( 'g#' )
-"call s:conditional_nnoremap( 'g$' )
-"call s:conditional_nnoremap( 'g&' )
-"call s:conditional_nnoremap( "g'" )
-"call s:conditional_nnoremap( 'g*' )
-"call s:conditional_nnoremap( 'g0' )
-"call s:conditional_nnoremap( 'g8' )
-"call s:conditional_nnoremap( 'g<' )
-"call s:conditional_nnoremap( 'g<C-G>' )
-"call s:conditional_nnoremap( 'g<C-H>' )
-"call s:conditional_nnoremap( 'g<C-]>' )
-"call s:conditional_nnoremap( 'g<Down>' )
-"call s:conditional_nnoremap( 'g<End>' )
-"call s:conditional_nnoremap( 'g<Home>' )
-"call s:conditional_nnoremap( 'g<LeftMouse>' )
-"call s:conditional_nnoremap( 'g<MiddleMouse>' )
-"call s:conditional_nnoremap( 'g<RightMouse>' )
-"call s:conditional_nnoremap( 'g<Up>' )
-"call s:conditional_nnoremap( 'g?' )
-"call s:conditional_nnoremap( 'g??' )
-"call s:conditional_nnoremap( 'g?g?' )
-"call s:conditional_nnoremap( 'g@' )
-"call s:conditional_nnoremap( 'gD' )
-"call s:conditional_nnoremap( 'gE' )
-"call s:conditional_nnoremap( 'gF' )
-"call s:conditional_nnoremap( 'gH' )
-"call s:conditional_nnoremap( 'gI' )
-"call s:conditional_nnoremap( 'gJ' )
-"call s:conditional_nnoremap( 'gP' )
-"call s:conditional_nnoremap( 'gR' )
-"call s:conditional_nnoremap( 'gU' )
-"call s:conditional_nnoremap( 'gUU' )
-"call s:conditional_nnoremap( 'gUgU' )
-"call s:conditional_nnoremap( 'gV' )
-"call s:conditional_nnoremap( 'g]' )
-"call s:conditional_nnoremap( 'g^' )
-"call s:conditional_nnoremap( 'g`' )
-"call s:conditional_nnoremap( 'ga' )
-"call s:conditional_nnoremap( 'gd' )
-"call s:conditional_nnoremap( 'ge' )
-"call s:conditional_nnoremap( 'gf' )
-"call s:conditional_nnoremap( 'gg' )
-"call s:conditional_nnoremap( 'gh' )
-"call s:conditional_nnoremap( 'gi' )
-"call s:conditional_nnoremap( 'gj' )
-"call s:conditional_nnoremap( 'gk' )
-"call s:conditional_nnoremap( 'gm' )
-"call s:conditional_nnoremap( 'go' )
-"call s:conditional_nnoremap( 'gp' )
-"call s:conditional_nnoremap( 'gq' )
-"call s:conditional_nnoremap( 'gr' )
-"call s:conditional_nnoremap( 'gs' )
-"call s:conditional_nnoremap( 'gu' )
-"call s:conditional_nnoremap( 'gugu' )
-"call s:conditional_nnoremap( 'guu' )
-"call s:conditional_nnoremap( 'gv' )
-"call s:conditional_nnoremap( 'gw' )
-"call s:conditional_nnoremap( 'gx' )
-
-
-"====[ Use persistent undo ]=================
-
-if has('persistent_undo')
-    set undodir=$HOME/tmp/.VIM_UNDO_FILES
-    set undolevels=5000
-    set undofile
-endif
-
-"TODO: remap u to prompt when first undoing into a previous session's history
-" (probably by calling undotree when the buffer is loaded,
-"  remembering the current sequence number, and comparing it on each undo
-
+Nnoremap ;b  [Edit ~/bin/...]  :next ~/bin/
 
 "====[ Goto last location in non-empty files ]=======
 
@@ -385,47 +323,14 @@ endif
 
 "====[ I'm sick of typing :%s/.../.../g ]=======
 
-Nmap s  [Shortcut for :s///g]  :%s//g<LEFT><LEFT>
-vmap s                         :s//g<LEFT><LEFT>
-
-
-"====[ Toggle visibility of naughty characters ]============
-
-" Make naughty characters visible...
-" (uBB is right double angle, uB7 is middle dot)
-exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
-
-augroup VisibleNaughtiness
-    autocmd!
-    autocmd BufEnter  *       set list
-    autocmd BufEnter  *.txt   set nolist
-    autocmd BufEnter  *.vp*   set nolist
-    autocmd BufEnter  *       if !&modifiable
-    autocmd BufEnter  *           set nolist
-    autocmd BufEnter  *       endif
-augroup END
-
-
-"====[ Set up smarter search behaviour ]=======================
-
-"set incsearch       "Lookahead as search pattern is specified
-set ignorecase      "Ignore case in all searches...
-set smartcase       "...unless uppercase letters used
-"set hlsearch        "Highlight all matches
-
-"Delete in normal mode to switch off highlighting till next search and clear messages...
-"Nmap <silent> <BS> [Cancel highlighting]  :nohlsearch <BAR> call Toggle_CursorColumn('off')<CR>
-
-"Double-delete to remove search highlighting *and* trailing whitespace...
-"Nmap <silent> <BS><BS>  [Cancel highlighting and remove trailing whitespace]
-"\             mz:%s/\s\+$//g<CR>`z:nohlsearch<CR>
-
+Nnoremap s  [Shortcut for :s///g]  :%s//g<LEFT><LEFT>
+vnoremap s                         :s//g<LEFT><LEFT>
 
 "====[ Handle encoding issues ]============
 
 set encoding=latin1
 
-"Nmap <silent> U [Toggle UTF8]  :call ToggleUTF8()<CR>
+Nnoremap <silent> ;u [Toggle UTF8]  :call ToggleUTF8()<CR>
 
 function! ToggleUTF8 ()
     if &fileencoding =~ 'utf-\?8'
@@ -436,8 +341,6 @@ function! ToggleUTF8 ()
     echo '[' . &fileencoding . ']'
 endfunction
 
-
-
 "====[ Set background hint (if possible) ]=============
 
 if $VIMBACKGROUND != ""
@@ -445,7 +348,6 @@ if $VIMBACKGROUND != ""
 else
     set background=dark
 endif
-
 
 "======[ Magically build interim directories if necessary ]===================
 
@@ -475,42 +377,7 @@ augroup AutoMkdir
     autocmd  BufNewFile  *  :call EnsureDirExists()
 augroup END
 
-
-"=====[ There can be only one (one Vim session per file) ]=====================
-
-"augroup NoSimultaneousEdits
-"    autocmd!
-"    autocmd SwapExists *  let v:swapchoice = 'o'
-"    autocmd SwapExists *  echohl ErrorMsg
-"    autocmd SwapExists *  echo 'Duplicate edit session (readonly)'
-"    autocmd SwapExists *  echohl None
-"    autocmd SwapExists *  call Make_session_finder( expand('<afile>') )
-"    autocmd SwapExists *  sleep 2
-"augroup END
-"
-"function! Make_session_finder (filename)
-"    exec 'nnoremap ss :!terminal_promote_vim_session ' . a:filename . '<CR>:q!<CR>'
-"endfunction
-
-
-"=====[ Enable smartwrapping ]==================================
-
-" No smartwrapping in any of these files...
-"let g:SW_IGNORE_FILES = '.vimrc,*.vim,*.pl,*.pm,**/bin/**'
-
-" set comments-=s1:/*,mb:*,ex:*/      "Don't recognize C comments
-" set comments-=:XCOMM                "Don't recognize lmake comments
-" set comments-=:%                    "Don't recognize PostScript comments
-" set comments-=:#                    "Don't recognize Perl/shell comments
-" set comments+=fb:*                  "Star-space is a bullet
-" set comments+=fb:-                  "Dash-space is a bullets
-
-"set formatoptions-=cro
-
-set wrapmargin=2                            "Wrap 2 characters from the edge of the window
-set autoindent                              "Retain indentation on next line
-set smartindent                             "Turn on autoindenting of blocks
-"set cinwords = ""                           "But not for C-like keywords
+" TODO figure out what this does
 inoremap # X<C-H>#|                         "And no magic outdent for comments
 nnoremap <silent> >> :call ShiftLine()<CR>| "And no shift magic on comments
 
@@ -520,245 +387,34 @@ function! ShiftLine()
     set smartindent
 endfunction
 
-
-
 "====[ I hate modelines ]===================
 
 set modelines=0
 
-
-"=====[ Make Visual modes work better ]==================
-
-" Visual Block mode is far more useful that Visual mode (so swap the commands)...
-nnoremap v <C-V>
-nnoremap <C-V> v
-
-vnoremap v <C-V>
-vnoremap <C-V> v
-
-"Square up visual selections...
-set virtualedit=block
-
-" Make BS/DEL work as expected in visual modes (i.e. delete the selected text)...
-vmap <BS> x
-
-" Make vaa select the entire file...
-vmap aa VGo1G
-
-" When shifting, retain selection over multiple shifts...
-vmap <expr> > KeepVisualSelection(">")
-vmap <expr> < KeepVisualSelection("<")
-
-function! KeepVisualSelection(cmd)
-    set nosmartindent
-    if mode() ==# "V"
-        return a:cmd . ":set smartindent\<CR>gv"
-    else
-        return a:cmd . ":set smartindent\<CR>"
-    endif
-endfunction
-
-" Temporarily add a column indicator when inserting or appending in visual mode...
-" (Should use <C-O> instead, but it doesn't seem to work)
-vnoremap <silent>  I  I<C-R>=TemporaryColumnMarkerOn()<CR>
-vnoremap <silent>  A  A<C-R>=TemporaryColumnMarkerOn()<CR>
-
-function! TemporaryColumnMarkerOn ()
-    let g:prev_cursorcolumn_state = g:cursorcolumn_visible ? 'on' : 'off'
-    call Toggle_CursorColumn('on')
-    inoremap <silent>  <ESC>  <ESC>:call TemporaryColumnMarkerOff(g:prev_cursorcolumn_state)<CR>
-    return ""
-endfunction
-
-function! TemporaryColumnMarkerOff (newstate)
-    call Toggle_CursorColumn(a:newstate)
-    iunmap <ESC>
-endfunction
-
-
-"=====[ Demo vim commands ]==============================
-
-highlight WHITE_ON_BLACK ctermfg=white
-
-Nmap <silent> ;; [Demonstrate Vimscript block] :call DemoCommand()<CR>
-vmap <silent> ;; :<C-U>call DemoCommand(1)<CR>
-
-function! DemoCommand (...)
-    " Remember how everything was before we did this...
-    let orig_buffer = getline('w0','w$')
-    let orig_match  = matcharg(1)
-
-    " Select either the visual region, or the current paragraph...
-    if a:0
-        let @@ = join(getline("'<","'>"), "\n")
-    else
-        silent normal vipy
-    endif
-
-    " Highlight the selection in red to give feedback...
-    let matchid = matchadd('WHITE_ON_RED','\%V')
-    redraw
-    sleep 500m
-
-    " Remove continuations and convert shell commands, then execute...
-    let command = @@
-    let command = substitute(command, '^\s*".\{-}\n', '',     'g')
-    let command = substitute(command, '\n\s*\\',      ' ',    'g')
-    let command = substitute(command, '^\s*>\s',      ':! ',  '' )
-    execute command
-
-    " If the buffer changed, hold the highlighting an extra second...
-    if getline('w0','w$') != orig_buffer
-        redraw
-        sleep 1000m
-    endif
-
-    " Remove the highlighting...
-    call matchdelete(matchid)
-endfunction
-
-
 "=====[ Toggle syntax highlighting ]==============================
 
-Nmap <silent> ;y [Toggle syntax highlighting]
+Nnoremap <silent> ;y [Toggle syntax highlighting]
                  \ : if exists("syntax_on") <BAR>
                  \    syntax off <BAR>
                  \ else <BAR>
                  \    syntax enable <BAR>
                  \ endif<CR>
 
-
-"=====[ Configure % key (via matchit plugin) ]==============================
-
-" Match angle brackets...
-" set matchpairs+=<:>,Β«:Β»
-
-" Match double-angles, XML tags and Perl keywords...
-let TO = ':'
-let OR = ','
-let b:match_words =
-\
-\                          '<<' .TO. '>>'
-\
-\.OR.     '<\@<=\(\w\+\)[^>]*>' .TO. '<\@<=/\1>'
-\
-\.OR. '\<if\>' .TO. '\<elsif\>' .TO. '\<else\>'
-
-" Engage debugging mode to overcome bug in matchpairs matching...
-let b:match_debug = 1
-
-
-"=====[ Miscellaneous features (mainly options) ]=====================
-
-set title           "Show filename in titlebar of window
-set titleold=
-
-set nomore          "Don't page long listings
-
-set autowrite       "Save buffer automatically when changing files
-set autoread        "Always reload buffer when external changes detected
-
-"           +--Disable hlsearch while loading viminfo
-"           | +--Remember marks for last 50 files
-"           | |   +--Remember up to 10000 lines in each register
-"           | |   |      +--Remember up to 1MB in each register
-"           | |   |      |     +--Remember last 1000 search patterns
-"           | |   |      |     |     +---Remember last 1000 commands
-"           | |   |      |     |     |
-"           v v   v      v     v     v
-set viminfo=h,'50,<10000,s1000,/1000,:1000
-
-set backspace=indent,eol,start      "BS past autoindents, line boundaries,
-                                    "     and even the start of insertion
-
-set fileformats=unix,mac,dos        "Handle Mac and DOS line-endings
-                                    "but prefer Unix endings
-
-
-set wildmode=list:longest,full      "Show list of completions
-                                    "  and complete as much as possible,
-                                    "  then iterate full completions
-
-set noshowmode                      "Suppress mode change messages
-
-set updatecount=10                  "Save buffer every 10 chars typed
-
-" Keycodes and maps timeout in 3/10 sec...
-set timeout timeoutlen=300 ttimeoutlen=300
-
-set thesaurus+=~/Documents/thesaurus    "Add thesaurus file for ^X^T
-set dictionary+=~/Documents/dictionary  "Add dictionary file for ^X^K
-
-
-set scrolloff=2                     "Scroll when 2 lines from top/bottom
-
-set ruler                           "Show cursor location info on status line
-
-"====[ Simplify textfile backups ]============================================
-
-" Back up the current file
-"Nmap BB [Back up current file]  :!bak -q %<CR><CR>:echomsg "Backed up" expand('%')<CR>
-
-"=====[ Remap various keys to something more useful ]========================
-
-" Use space to jump down a page (like browsers do)...
-nnoremap <Space> <PageDown>
-
-" Edit a file...
-nmap e :n<SPACE>
+" Re-factored .vimrc to this point so far. (vim_please_jump_to_this_location)
 
 " Forward/back one file...
 nmap <C-DOWN> :next<CR>0
 nmap <C-UP>   :prev<CR>0
 
-" Format file with autoformat (capitalize to specify options)...
-"nmap          F !Gformat -T4 -
-"nmap <silent> f !Gformat -T4<CR>
-"vmap          F :!format -T4 -all -
-"vmap <silent> f :!format -T4 -all<CR>
-
-" Install current file and swap to alternate file...
-"Nmap IP [Install current file and swap to alternate] :!install -f %<CR>
-
-
-" Add *** as **/* on command-line...
-cmap *** **/*
-
-
-" Take off and nuke the entire buffer contents from space
-" (It's the only way to be sure)...
-nmap XX 1GdG
-
-" Replace the current buffer with a copy of the most recent...
-
-nmap RR XX:0r#<CR><C-G>
-
-" Insert cut marks...
-nmap -- A<CR><CR><CR><ESC>k6i-----cut-----<ESC><CR>
-
-
 " Indent/outdent current block...
 nmap %% $>i}``
 nmap $$ $<i}``
 
-
-" =====[ Perl programming support ]===========================
-
-" Execute Perl file...
-"nmap W :!clear;echo;echo;polyperl %;echo;echo;echo<CR>
-
-" Execute Perl file (output to pager)...
-"nmap E :!polyperl -m %<CR>
-
-" Execute Perl file (in debugger)...
-"nmap Q :!polyperl -d %<CR>
-
-
 " Format file with perltidy...
-Nmap ;p [Perltidy the current buffer]  1G!Gperltidy<CR>
+Nnoremap ;p [Perltidy the current buffer]  1G!Gperltidy<CR>
 
 " Show what changes perltidy would make...
-Nmap ;pp [Perltidy to the current buffer (as a diff)]  :call Perltidy_diff()<CR>
+Nnoremap ;pp [Perltidy to the current buffer (as a diff)]  :call Perltidy_diff()<CR>
 
 function! Perltidy_diff ()
     " Work out what the tidied file will be called...
@@ -775,10 +431,9 @@ function! Perltidy_diff ()
     call delete(tidy_file)
 endfunction
 
-
 " Run perldoc with smarter completion...
-Nmap <expr> ?? [Go to documentation] CallPerldoc()
-set keywordprg=pd
+Nnoremap <expr> ?? [Go to documentation] CallPerldoc()
+" set keywordprg=pd
 
 function! CallPerldoc ()
     " When editing Vim files, revert to :help...
@@ -806,36 +461,12 @@ function! Perldoc_impl (args)
     endif
 endfunction
 
-" Compile the list of installed Perl modules (and include the name under the cursor)...
-"let s:module_files = readfile($HOME.'/.vim/perlmodules')
-"function! CompletePerlModuleNames(prefix, cmdline, curpos)
-"    let cfile = expand('<cfile>')
-"    let prefix = a:prefix
-"    if prefix == cfile
-"        let prefix = ""
-"    endif
-"    if empty(prefix) && cfile =~ '^\w\+\(::\w\+\)*$'
-"        return [cfile] + filter(copy(s:module_files), 'v:val =~ ''\c\_^' . prefix. "'")
-"    else
-"        return filter(copy(s:module_files), 'v:val =~ ''\c\_^' . prefix. "'")
-"    endif
-"endfunction
-
-
 " Handle Perl include files better...
 
 set include=^\\s*use\\s\\+\\zs\\k\\+\\ze
 set includeexpr=substitute(v:fname,'::','/','g')
 set suffixesadd=.pm
 execute 'set path+=' . substitute($PERL5LIB, ':', ',', 'g')
-
-
-"Adjust keyword characters to match Perlish identifiers...
-"set iskeyword+=$
-"set iskeyword+=%
-"set iskeyword+=@
-"set iskeyword-=,
-
 
 " Insert common Perl code structures...
 
@@ -876,7 +507,7 @@ endfunction
 
 "=====[ Enable quickfix on Perl programs ]=======================
 
-Nmap ;m [Run :make and any tests on a Perl file]  :make<CR><CR><CR>:call PerlMake_Cleanup()<CR>
+Nnoremap ;m [Run :make and any tests on a Perl file]  :make<CR><CR><CR>:call PerlMake_Cleanup()<CR>
 
 function! PerlMake_Cleanup ()
     " If there are errors, show the first of them...
@@ -917,8 +548,8 @@ let g:PerlTests_test_dir      = '/t'          " ...Where to look for tests
 
 augroup Perl_Tests
     autocmd!
-    autocmd BufEnter *.p[lm]  Nmap <buffer> ;t [Run local test suite] :call RunPerlTests()<CR>
-    autocmd BufEnter *.t      Nmap <buffer> ;t [Run local test suite] :call RunPerlTests()<CR>
+    autocmd BufEnter *.p[lm]  Nnoremap <buffer> ;t [Run local test suite] :call RunPerlTests()<CR>
+    autocmd BufEnter *.t      Nnoremap <buffer> ;t [Run local test suite] :call RunPerlTests()<CR>
 augroup END
 
 function! RunPerlTests ()
@@ -948,33 +579,6 @@ function! RunPerlTests ()
     echohl WarningMsg
     echomsg "Couldn't find a suitable" g:PerlTests_test_dir '(tried' g:PerlTests_search_height 'levels up)'
     echohl None
-endfunction
-
-
-"=====[ Auto-setup for Perl scripts and modules ]===========
-
-"augroup Perl_Setup
-"    autocmd!
-"    autocmd BufNewFile *.p[lm] 0r !file_template <afile>
-"    autocmd BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
-"augroup END
-
-
-"=====[ Proper syntax highlighting for Rakudo files ]===========
-
-autocmd BufNewFile,BufRead  *   :call CheckForPerl6()
-
-function! CheckForPerl6 ()
-    if getline(1) =~ 'rakudo'
-        setfiletype perl6
-    endif
-    if expand('<afile>:e') == 'pod6'
-        highlight Pod6Block_Heading1 cterm=bold,underline
-        highlight Pod6FC_Important cterm=underline
-
-        setfiletype pod6
-        syntax enable
-    endif
 endfunction
 
 " =====[ Smart completion via <TAB> and <S-TAB> ]=============
@@ -1042,8 +646,8 @@ iab hbr #! /Users/damian/bin/rakudo*<CR>use v6;
 
 
 " Execute current file polymorphically...
-Nmap ,, [Execute current file] :w<CR>:!clear;echo;echo;run %<CR>
-Nmap ,,, [Debug current file]  :w<CR>:!clear;echo;echo;run -d %<CR>
+Nnoremap ,, [Execute current file] :w<CR>:!clear;echo;echo;run %<CR>
+Nnoremap ,,, [Debug current file]  :w<CR>:!clear;echo;echo;run -d %<CR>
 
 
 "=====[ Show help files in a new tab, plus add a shortcut for helpg ]==============
@@ -1073,78 +677,6 @@ endfunction
 
 "Expand hh -> helpg...
 cmap <expr> hh CommandExpandAtCol1('hh','helpg ')
-
-
-"=====[ Cut and paste from MacOSX clipboard ]====================
-
-" Paste carefully in Normal mode...
-nmap <silent> <C-P> :set paste<CR>
-                   \:let b:prevlen = len(getline(0,'$'))<CR>
-                   \!!pbtranspaste<CR>
-                   \:set nopaste<CR>
-                   \:set fileformat=unix<CR>
-                   \mv
-                   \:exec 'normal ' . (len(getline(0,'$')) - b:prevlen) . 'j'<CR>
-                   \V`v
-
-" When in Visual mode, paste over the selected region...
-vmap <silent> <C-P> x:call TransPaste(visualmode())<CR>
-
-function! TransPaste(type)
-    " Remember the last yanked text...
-    let reg_save = @@
-
-    " Grab the MacOSX clipboard contents via a shell command...
-    let clipboard = system("pbtranspaste")
-
-    " Put them in the yank buffer...
-    call setreg('@', clipboard, a:type)
-
-    " Paste them...
-    silent exe "normal! P"
-
-    " Restore the previous yanked text...
-    let @@ = reg_save
-endfunction
-
-
-" In Normal mode, yank the entire buffer...
-nmap <silent> <C-C> :w !pbtranscopy<CR><CR>
-
-" In Visual mode, yank the selection...
-vmap <silent> <C-C> :<C-U>call TransCopy(visualmode(), 1)<CR>
-
-function! TransCopy(type, ...)
-    " Yank inclusively (but remember the previous setup)...
-    let sel_save = &selection
-    let &selection = "inclusive"
-    let reg_save = @@
-
-    " Invoked from Visual mode, use '< and '> marks.
-    if a:0
-        silent exe "normal! `<" . a:type . "`>y"
-
-    " Or yank a line, if requested...
-    elseif a:type == 'line'
-        silent exe "normal! '[V']y"
-
-    " Or yank a block, if requested...
-    elseif a:type == 'block'
-        silent exe "normal! `[\<C-V>`]y"
-
-    " Or else, just yank the range...
-    else
-        silent exe "normal! `[v`]y"
-    endif
-
-    " Send it to the MacOSX clipboard...
-    call system("pbtranscopy", @@)
-
-    " Restore the previous setup...
-    let &selection = sel_save
-    let @@ = reg_save
-endfunction
-
 
 "=====[ Convert file to different tabspacings ]=====================
 
@@ -1178,42 +710,8 @@ function! NewTabSpacing (newtabsize)
     endif
 endfunction
 
-" Note, these are all T-<SHIFTED-DIGIT>, which is easier to type...
-"nmap <silent> T@ :call NewTabSpacing(2)<CR>
-"nmap <silent> T# :call NewTabSpacing(3)<CR>
-"nmap <silent> T$ :call NewTabSpacing(4)<CR>
-"nmap <silent> T% :call NewTabSpacing(5)<CR>
-"nmap <silent> T^ :call NewTabSpacing(6)<CR>
-"nmap <silent> T& :call NewTabSpacing(7)<CR>
-"nmap <silent> T* :call NewTabSpacing(8)<CR>
-"nmap <silent> T( :call NewTabSpacing(9)<CR>
-
-" Convert to/from spaces/tabs...
-"nmap <silent> TS :set   expandtab<CR>:%retab!<CR>
-"nmap <silent> TT :set noexpandtab<CR>:%retab!<CR>
-"nmap <silent> TF TST$
-
-
-"=====[ Correct common mistypings in-the-fly ]=======================
-
-iab    retrun  return
-iab     pritn  print
-iab       teh  the
-iab      liek  like
-iab  liekwise  likewise
-iab      Pelr  Perl
-iab      pelr  perl
-iab        ;t  't
-iab    Jarrko  Jarkko
-iab    jarrko  jarkko
-iab      moer  more
-iab  previosu  previous
-
-
 "=====[ Tab handling ]======================================
 
-set tabstop=4      "Tab indentation levels every four columns
-set shiftwidth=4   "Indent/outdent by four columns
 set expandtab      "Convert all tabs that are typed into spaces
 set shiftround     "Always indent/outdent to nearest tabstop
 set smarttab       "Use shiftwidths at left margin, tabstops everywhere else
@@ -1235,63 +733,6 @@ function! AddVimPointKeywords ()
     \   '^=\k*', "", 'set complete=k~/.vim/VimPointKeywords|set iskeyword+=='
     \)
 endfunction
-
-
-"=====[ Grammar checking ]========================================
-
-" List of problematic words...
-let s:problem_words = [
-\       "it's",  "its",
-\       "were",  "we're",   "where",
-\       "their", "they're", "there",
-\       "your",  "you're",
-\ ]
-
-" OR them together to make a matchable pattern...
-let s:problem_words_pat     = join(s:problem_words, '\|')
-let s:problem_words_pat_str = substitute(s:problem_words_pat, "'", "''", 'g')
-
-" Create a pattern that matches repeated words...
-
-let s:repeat_matcher = '\(\S\+\)\@>\_s\+\1'
-
-" Create a command that will match that pattern...
-let s:words_matcher
-\   = 'let w:check_grammar = matchadd(''BOLD'', ''\c\<\%(' . s:problem_words_pat_str . '\|' . s:repeat_matcher . '\)\>'')'
-
-" Create a command that will find those words...
-let s:words_finder
-\   = '/\c\<\%(' . s:problem_words_pat . '\|' . s:repeat_matcher . '\)\>'
-
-" Enbolden problematic words...
-highlight BOLD  term=bold cterm=bold gui=bold
-
-function! CheckGrammar ()
-    " If we're turning the feature off...
-    if exists('w:check_grammar')
-        " Stop matching and highlighting the words...
-        call matchdelete(w:check_grammar)
-
-        " Clear the flag
-        unlet w:check_grammar
-
-        " Clear any search highlighting...
-        return "nohlsearch"
-
-    " If we're turning the feature on...
-    else
-        " Start matching and highlighting the words...
-        exec s:words_matcher
-
-        " Return a search command, to be executed by the mapping...
-        return ""
-        "s:words_finder
-    endif
-endfunction
-
-" Toggle grammar checking...
-Nmap <silent> ;g [Toggle grammar checking] :exec CheckGrammar()<CR>
-
 
 "=====[ Add or subtract comments ]===============================
 
@@ -1349,51 +790,8 @@ function! ToggleBlock () range
 endfunction
 
 " Set up the relevant mappings
-nmap <silent> # :call ToggleComment()<CR>j0
-vmap <silent> # :call ToggleBlock()<CR>
-
-
-"=====[ Highlight cursor (plus row and column on request) ]===================
-
-" Inverse highlighting for cursor...
-"highlight CursorInverse   term=inverse ctermfg=black ctermbg=white
-"call matchadd('CursorInverse', '\%#', 100)
-
-" Need an invisible cursor column to make it update on every cursor move...
-"highlight clear CursorColumn
-"highlight CursorColumn term=none cterm=none
-"set cursorcolumn
-
-" Toggle cursor row highlighting on request...
-"highlight CursorLine   term=bold ctermfg=black ctermbg=cyan  cterm=bold
-"Nmap <silent> ;r [Toggle cursor line highlighting] :set cursorline!<CR>
-
-" Toggle cursor column highlighting on request...
-"Nmap <silent> ;c [Toggle cursor row highlighting] :silent call Toggle_CursorColumn('flip')<CR>
-
-" Implement cursor toggle...
-"let g:cursorcolumn_visible = 0
-"function! Toggle_CursorColumn (requested_state)
-"    if a:requested_state == 'off' || g:cursorcolumn_visible && a:requested_state == 'flip'
-"        let g:cursorcolumn_visible = 0
-"        highlight clear CursorColumn
-"        highlight CursorColumn term=none cterm=none
-"    else
-"        let g:cursorcolumn_visible = 1
-"        highlight CursorColumn term=bold ctermfg=black ctermbg=cyan cterm=bold
-"    endif
-"endfunction
-
-"=====[ Highlight spelling errors on request ]===================
-
-set spelllang=en_au
-"Nmap <silent> ;s [Toggle spell-checking] :setlocal invspell<CR>
-
-
-"======[ Create a toggle for the XML completion plugin ]=======
-
-"Nmap ;x [Toggle XML completion] <Plug>XMLMatchToggle
-
+Nnoremap <silent> #  [Toggle Comment]  :call ToggleComment()<CR>j0
+vnoremap <silent> # :call ToggleBlock()<CR>
 
 "======[ Order-preserving uniqueness ]=========================
 
@@ -1443,7 +841,7 @@ NormalizedSearchUsing ~/bin/NFKC
 
 "====[ Toggle between lists and bulleted lists ]======================
 
-Nmap <silent> ;l [Toggle list format (bullets <-> commas)]  vip!list2bullets<CR>
+Nnoremap <silent> ;l [Toggle list format (bullets <-> commas)]  vip!list2bullets<CR>
 vmap <silent> ;l !list2bullets<CR>
 
 
@@ -1472,78 +870,6 @@ augroup HelpTags
     au!
     autocmd BufWritePost ~/.vim/doc/*   :helptags ~/.vim/doc
 augroup END
-
-"====[ Formatting for .lei files ]=======================================
-
-augroup LEI
-    autocmd!
-    autocmd BufEnter *.lei  nmap =  vip!sort -bdfu<CR>vip:call LEI_format()<CR>
-augroup END
-
-function! LEI_format () range
-    let [from, to] = [a:firstline, a:lastline]
-
-    " Acquire data...
-    let lines = getline(from, to)
-
-    " Ignore comments and category descriptions...
-    if lines[0] =~ '^\S'
-        return
-    endif
-
-    " Subdivide each line into singular/plural/classical plural columns...
-    let fields = []
-    for line in lines
-        let new_fields = split(line, '\s*\(|\|=>\)\s*')
-        call add(fields, ["","",""])
-        for col_num in [0,1,2]
-            let fields[-1][col_num] = get(new_fields, col_num, "")
-        endfor
-    endfor
-
-    " Work out how wide the columns need to be...
-    let max_width = [0,0]
-    for field_num in range(len(fields))
-        for col_num in [0,1]
-            let max_width[col_num] = max([max_width[col_num], strlen(fields[field_num][col_num])])
-        endfor
-    endfor
-
-    " Are there any classical alternatives???
-    let has_classical = match(lines, '|') >= 0
-    let field_template
-    \   = has_classical
-     \    ? '%-' . max_width[0] . 's  =>  %-' . max_width[1] . 's  |  %s'
-      \   : '%-' . max_width[0] . 's  =>  %-s'
-
-    " Reformat each line...
-    for field_num in range(len(fields))
-        let updated_line
-        \   = has_classical
-         \    ? printf(field_template, fields[field_num][0], fields[field_num][1], fields[field_num][2])
-          \   : printf(field_template, fields[field_num][0], fields[field_num][1])
-        call setline(from + field_num, substitute(updated_line,'\s*$','',''))
-    endfor
-endfunction
-
-
-"=====[ Perl folding ]=====================
-
-"nmap <silent> zp /^\s*sub\s\+\w\+<CR>
-"                \:nohlsearch<CR>
-"                \``
-"                \zz
-"                \:call SetZPHighlight()<CR>
-
-function! SetZPHighlight ()
-    if exists('b:ZPHighlightID')
-        call matchdelete(b:ZPHighlightID)
-        unlet b:ZPHighlightID
-    endif
-    if &foldlevel == 0
-        let b:ZPHighlightID = matchadd('WHITE_ON_BLACK','^\s*sub\s\+\w\+')
-    endif
-endfunction
 
 function! VimwikiLinkHandler(link) "{{{ Use Vim to open links with the
     " 'vlocal:' or 'vfile:' schemes.  E.g.:
