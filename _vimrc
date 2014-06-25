@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.0
+" David Bradford's .vimrc VERSION=3.1
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -154,7 +154,7 @@ nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
 nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!./%<CR>
-nnoremap <silent> <leader>s :o c:\tusc\file\scratch.txt<CR>
+nnoremap <silent> <leader>s :source $MYVIMRC<CR>
 nnoremap <silent> <leader>w :w<CR>
 nnoremap <silent> <leader>f :silent! call FindeyFind()<cr>
 nnoremap <silent> <leader>h :call <SID>ListMappings()<CR>
@@ -180,10 +180,10 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/public_html/'},
 "colorscheme dmb
 
 " Rating: A-
-"colorscheme torte
+colorscheme torte
 "colorscheme elflord
 "colorscheme darkblue " very good
-colorscheme spiderhawk " very good... maybe just annoyed about no ahk
+"colorscheme spiderhawk " very good... maybe just annoyed about no ahk
 "colorscheme adrian " good, plus default color is green
 "colorscheme baycomb " maybe best so far, blues may be too similar in ahk
 "colorscheme greens " pretty damn good but the greys have to go
@@ -303,13 +303,6 @@ autocmd BufNewFile,BufRead  *.t   setfiletype perl
 
 runtime plugin/documap.vim
 
-"====[ Edit and auto-update this config file and plugins ]==========
-
-augroup VimReload
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
-
 "=====[ Edit files in local bin directory ]========
 
 Nnoremap ;b  [Edit ~/bin/...]  :next ~/bin/
@@ -403,8 +396,8 @@ Nnoremap <silent> ;y [Toggle syntax highlighting]
 " Re-factored .vimrc to this point so far. (vim_please_jump_to_this_location)
 
 " Forward/back one file...
-nmap <C-DOWN> :next<CR>0
-nmap <C-UP>   :prev<CR>0
+nnoremap aj :next<CR>0
+nnoremap ak :rew<CR>0
 
 " Indent/outdent current block...
 nmap %% $>i}``
