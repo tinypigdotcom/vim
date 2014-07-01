@@ -139,7 +139,10 @@ endif
 set backupdir=$HOME/temp//
 set directory=$HOME/temp//
 
-filetype plugin on
+" I have no idea what makes vim search through every Perl file in existence
+" due to the following line, but it SUCKS and I haven't yet found functionality
+" that doesn't work because of this not being here.
+"filetype plugin on
 syntax on
 
 " Windows-specific commands can go here
@@ -293,7 +296,10 @@ runtime plugin/autodoc.vim
 
 "====[ Work out what kind of file this is ]========
 
-filetype plugin on
+" I have no idea what makes vim search through every Perl file in existence
+" due to the following line, but it SUCKS and I haven't yet found functionality
+" that doesn't work because of this not being here.
+"filetype plugin on
 
 " .t bilong perl!!!
 
