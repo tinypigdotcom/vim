@@ -311,7 +311,8 @@ runtime plugin/documap.vim
 
 "=====[ Edit files in local bin directory ]========
 
-Nnoremap ;b  [Edit ~/bin/...]  :next ~/bin/
+"screws up my run macro
+"Nnoremap ;b  [Edit ~/bin/...]  :next ~/bin/
 
 "====[ Goto last location in non-empty files ]=======
 
