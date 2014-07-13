@@ -26,7 +26,7 @@ cnoremap <esc> <nop>
 inoremap jk <esc>
 inoremap <esc> <nop>
 vnoremap jk <esc>
-vnoremap <esc> <nop>
+"vnoremap <esc> <nop> " this breaks shift tab to go back an indent level
 noremap : ;
 noremap ; :
 nmap <space> <c-space>
