@@ -157,6 +157,7 @@ nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
 nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!./%<CR>
+nnoremap <silent> <leader>x :!x r<CR>
 nnoremap <silent> <leader>s :source $MYVIMRC<CR>
 nnoremap <silent> <leader>w :w<CR>
 nnoremap <silent> <leader>f :silent! call FindeyFind()<cr>
