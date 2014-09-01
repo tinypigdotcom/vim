@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.1
+" David Bradford's .vimrc VERSION=3.2
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -152,6 +152,9 @@ syntax on
 "    syntax off
 "endif
 
+autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
+autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echohl None
+
 let mapleader = ';'
 nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
@@ -159,6 +162,8 @@ nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!./%<CR>
 nnoremap <silent> <leader>c :!chmod 700 ./%<CR>
 nnoremap <silent> <leader>r :!rr<CR>:r!get_rr<CR><CR>
+"vim_please_jump_to_this_location
+nnoremap <silent> <leader>e ma:!chmod 700 ./%<CR><CR>:r!type perl<CR>ct/#!<ESC>ddggP`a
 nnoremap <silent> <leader>x :!x r<CR>
 nnoremap <silent> <leader>s :source $MYVIMRC<CR>
 nnoremap <silent> <leader>w :w<CR>
@@ -403,7 +408,7 @@ Nnoremap <silent> ;y [Toggle syntax highlighting]
                  \    syntax enable <BAR>
                  \ endif<CR>
 
-" Re-factored .vimrc to this point so far. (vim_please_jump_to_this_location)
+" Re-factored .vimrc to this point so far.
 
 " Forward/back one file...
 nnoremap aj :next<CR>0
@@ -744,6 +749,8 @@ autocmd BufNewFile,BufRead   *                                 let b:cmt = exist
 autocmd FileType             *sh,awk,python,perl,perl6,ruby    let b:cmt = exists('b:cmt') ? b:cmt : '#'
 autocmd FileType             autohotkey                        let b:cmt = exists('b:cmt') ? b:cmt : ';'
 autocmd FileType             vim                               let b:cmt = exists('b:cmt') ? b:cmt : '"'
+
+au BufNewFile *.pl 0r ~/.perl.skel | let IndentStyle = "perl"
 
 " Work out whether the line has a comment then reverse that condition...
 function! ToggleComment ()
