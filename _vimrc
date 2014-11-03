@@ -160,7 +160,7 @@ nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
 nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!./%<CR>
-nnoremap <silent> <leader>c :!chmod 700 ./%<CR>
+nnoremap <silent> <leader>c :!perl -c ./%<CR>
 nnoremap <silent> <leader>r :!rr<CR>:r!get_rr<CR><CR>
 "vim_please_jump_to_this_location
 nnoremap <silent> <leader>e ma:!chmod 700 ./%<CR><CR>:r!type perl<CR>ct/#!<ESC>ddggP`a
