@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.3
+" David Bradford's .vimrc VERSION=3.4
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
