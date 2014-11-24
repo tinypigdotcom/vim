@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.4
+" David Bradford's .vimrc VERSION=3.5
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -161,7 +161,7 @@ nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
 nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!chmod 700 %;./%<CR>
 nnoremap <silent> <leader>c :!perl -c ./%<CR>
-nnoremap <silent> <leader>r :!rr<CR>:r!get_rr<CR><CR>
+nnoremap <silent> <leader>r :r!cat<CR>
 "vim_please_jump_to_this_location
 nnoremap <silent> <leader>e ma:!chmod 700 ./%<CR><CR>:r!type perl<CR>ct/#!<ESC>ddggP`a
 nnoremap <silent> <leader>x :!x r<CR>
