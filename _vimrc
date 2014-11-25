@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.4
+" David Bradford's .vimrc VERSION=3.5
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -158,6 +158,11 @@ autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echo
 let mapleader = ';'
 nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
+
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
 nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!chmod 700 %;./%<CR>
 nnoremap <silent> <leader>c :!perl -c ./%<CR>
