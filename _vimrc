@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.6
+" David Bradford's .vimrc VERSION=3.7
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -319,7 +319,7 @@ runtime plugin/autodoc.vim
 autocmd BufNewFile,BufRead  .vimrc setfiletype vim
 autocmd BufNewFile,BufRead  *.t    setfiletype perl
 autocmd BufNewFile,BufRead  *.pl   setfiletype perl
-autocmd BufNewFile,BufRead  *      setfiletype perl
+"autocmd BufNewFile,BufRead  *      setfiletype perl
 
 "=====[ Enable Nmap command for documented mappings ]================
 
