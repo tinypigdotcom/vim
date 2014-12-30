@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.7
+" David Bradford's .vimrc VERSION=3.8
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -127,7 +127,11 @@ set viminfo=h,'50,<10000,s1000,/1000,:1000
 "====[ Use persistent undo ]=================
 
 if has('persistent_undo')
+    let undo_dir = $HOME.'/tmp/.VIM_UNDO_FILES'
     set undodir=$HOME/tmp/.VIM_UNDO_FILES
+    if !isdirectory(undo_dir)
+        silent execute '!mkdir "'.undo_dir.'"'
+    endif
     set undolevels=5000
     set undofile
 endif
