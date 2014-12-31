@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.8
+" David Bradford's .vimrc VERSION=3.9
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -40,10 +40,6 @@ noremap <F6> maF'r"f'r"`a
 " copy the current line and comment it out so we can save it while changing
 " the copy
 noremap <F7> yypkI#<ESC>j
-
-" use some emacs behaviors
-noremap <C-A> <Home>
-noremap <C-E> <End>
 
 " map tab to indent one level
 nnoremap <tab> I<tab><esc>
