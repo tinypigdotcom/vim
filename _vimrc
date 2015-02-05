@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.91
+" David Bradford's .vimrc VERSION=3.92
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -30,6 +30,8 @@ vnoremap jk <esc>
 noremap : ;
 noremap ; :
 nmap <space> <c-space>
+nnoremap <silent> <space> ma:s/^\[ \] /[C] /e<CR>:s/^\[X\] /[ ] /e<CR>:s/^\[C\] /[X] /e<CR>:s/^\([^[]\)/[ ] \1/e<CR>`a
+vnoremap <silent> <space> ma:s/^\[ \] /[C] /e<CR>:'<,'>s/^\[X\] /[ ] /e<CR>:'<,'>s/^\[C\] /[X] /e<CR>:'<,'>s/^\([^[]\)/[ ] \1/e<CR>`a
 
 map z @az
 
@@ -321,7 +323,7 @@ runtime plugin/autodoc.vim
 autocmd BufNewFile,BufRead  .vimrc setfiletype vim
 autocmd BufNewFile,BufRead  *.t    setfiletype perl
 autocmd BufNewFile,BufRead  *.pl   setfiletype perl
-"autocmd BufNewFile,BufRead  *      setfiletype perl
+autocmd BufNewFile,BufRead  *.txt  setfiletype text
 
 "=====[ Enable Nmap command for documented mappings ]================
 
