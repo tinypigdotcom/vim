@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.9
+" David Bradford's .vimrc VERSION=3.91
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -61,7 +61,7 @@ set textwidth=78
 set keywordprg=:help
 set laststatus=2
 set list
-set listchars=tab:��,trail:�
+set listchars=tab:ùð,trail:Ü
 set backup
 set writebackup
 set nocompatible
@@ -174,6 +174,8 @@ nnoremap <silent> <leader>s :source $MYVIMRC<CR>
 nnoremap <silent> <leader>w :w<CR>
 nnoremap <silent> <leader>f :silent! call FindeyFind()<cr>
 nnoremap <silent> <leader>h :call <SID>ListMappings()<CR>
+nnoremap <silent> <leader>d mzYp:s/./=/g<CR>`z
+nnoremap <silent> <leader>u mzYp:s/./-/g<CR>`z
 set guicursor=a:block-Cursor
 
 au GUIEnter * hi Cursor guibg=white
@@ -346,7 +348,7 @@ vnoremap s                         :s//g<LEFT><LEFT>
 
 set encoding=latin1
 
-Nnoremap <silent> ;u [Toggle UTF8]  :call ToggleUTF8()<CR>
+Nnoremap <silent> ,u [Toggle UTF8]  :call ToggleUTF8()<CR>
 
 function! ToggleUTF8 ()
     if &fileencoding =~ 'utf-\?8'
@@ -611,8 +613,8 @@ let EOL      = '\s*$'
                 " =====    =====      ===============================    ============
 call SmartcomAdd( '<<',    ANYTHING,  '>>',                              {'restore':1} )
 call SmartcomAdd( '<<',    '>>',      "\<CR>\<ESC>O\<TAB>"                             )
-call SmartcomAdd( '«',     ANYTHING,  '»',                               {'restore':1} )
-call SmartcomAdd( '«',     '»',       "\<CR>\<ESC>O\<TAB>"                             )
+call SmartcomAdd( 'Â«',     ANYTHING,  'Â»',                               {'restore':1} )
+call SmartcomAdd( 'Â«',     'Â»',       "\<CR>\<ESC>O\<TAB>"                             )
 call SmartcomAdd( '{{',    ANYTHING,  '}}',                              {'restore':1} )
 call SmartcomAdd( '{{',    '}}',      NOTHING,                                         )
 call SmartcomAdd( 'qr{',   ANYTHING,  '}xms',                            {'restore':1} )
