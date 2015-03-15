@@ -183,7 +183,7 @@ set guicursor=a:block-Cursor
 au GUIEnter * hi Cursor guibg=white
 au InsertLeave * set guicursor=a:block-Cursor
 au InsertEnter * set guicursor=a:hor20-Cursor
-set guifont=Lucida_Console:h11:cDEFAULT
+" set guifont=Lucida_Console:h11:cDEFAULT
 
 " note that in order for MYVIMRC to be set correctly, it MATTERS where you
 " have put your vimrc file. Note in the following "system" vs "user":
@@ -291,7 +291,7 @@ function! Varg(...)
 endfunction
 " END These are all just playing around vim functions:
 
-au GUIEnter * simalt ~x
+" au GUIEnter * simalt ~x
 
 runtime plugin/dragvisuals.vim
 
