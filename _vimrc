@@ -11,7 +11,7 @@
 " * Steve Losh - "Learn Vimscript the Hard Way"
 " * Eric Andreychek's .vimrc
 "
-" David Bradford's .vimrc VERSION=3.92
+" David Bradford's .vimrc VERSION=3.93
 "
 
 " behave mswin " I don't know exactly what this does but I'm leaving it here
@@ -179,6 +179,7 @@ nnoremap <silent> <leader>h :call <SID>ListMappings()<CR>
 nnoremap <silent> <leader>d mzYp:s/./=/g<CR>`z
 nnoremap <silent> <leader>u mzYp:s/./-/g<CR>`z
 set guicursor=a:block-Cursor
+nmap ,c 0f]0 j,c
 
 au GUIEnter * hi Cursor guibg=white
 au InsertLeave * set guicursor=a:block-Cursor
