@@ -58,6 +58,7 @@ set ut=2000
 set backspace=2
 set bg=light
 set comments=b:#,:%,fb:-,n:>,n:)
+set complete-=i
 set expandtab
 set textwidth=78
 set keywordprg=:help
