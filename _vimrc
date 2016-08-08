@@ -211,10 +211,10 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '~/public_html/'},
 "colorscheme dmb
 
 " Rating: A-
-colorscheme torte
+"colorscheme torte
 "colorscheme elflord
 "colorscheme darkblue " very good
-"colorscheme spiderhawk " very good... maybe just annoyed about no ahk
+colorscheme spiderhawk " very good... maybe just annoyed about no ahk
 "colorscheme adrian " good, plus default color is green
 "colorscheme baycomb " maybe best so far, blues may be too similar in ahk
 "colorscheme greens " pretty damn good but the greys have to go
