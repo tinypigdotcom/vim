@@ -63,8 +63,7 @@ set expandtab
 set textwidth=78
 set keywordprg=:help
 set laststatus=2
-set list
-set listchars=tab:ùð,trail:Ü
+set nolist
 set backup
 set writebackup
 set nocompatible
