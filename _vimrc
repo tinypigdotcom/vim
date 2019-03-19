@@ -59,7 +59,6 @@ set backspace=2
 set bg=light
 set comments=b:#,:%,fb:-,n:>,n:)
 set complete-=i
-set expandtab
 set textwidth=78
 set keywordprg=:help
 set laststatus=2
@@ -118,7 +117,7 @@ set noshowmode                      "Suppress mode change messages
 set updatecount=10                  "Save buffer every 10 chars typed
 
 " Keycodes and maps timeout in 3/10 sec...
-set timeout timeoutlen=300 ttimeoutlen=300
+set timeout timeoutlen=1000 ttimeoutlen=1000
 
 set ruler                           "Show cursor location info on status line
 
@@ -168,7 +167,8 @@ autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl Non
 autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echohl None
 
 let mapleader = ';'
-nnoremap <silent> <leader>a mz:retab<CR>:%s/\s\+$//<CR>`z
+"vim_please_jump_to_this_location
+nnoremap <silent> <leader>a :set invlist<CR>
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
 
 nnoremap <F2> :set invpaste paste?<CR>
@@ -177,9 +177,8 @@ set showmode
 
 nnoremap <silent> Q :q!<CR>
 nnoremap <silent> <leader>b :!chmod 700 %;./%<CR>
-nnoremap <silent> <leader>c :!perl -c ./%<CR>
+nnoremap <silent> <leader>c :!perl -c %<CR>
 nnoremap <silent> <leader>r :r!cat<CR>
-"vim_please_jump_to_this_location
 nnoremap <silent> <leader>e ma:!chmod 700 ./%<CR><CR>:r!type perl<CR>ct/#!<ESC>ddggP`a
 nnoremap <silent> <leader>x :!x r<CR>
 nnoremap <silent> <leader>s :source $MYVIMRC<CR>
@@ -188,8 +187,19 @@ nnoremap <silent> <leader>f :silent! call FindeyFind()<cr>
 nnoremap <silent> <leader>h :call <SID>ListMappings()<CR>
 nnoremap <silent> <leader>d mzYp:s/./=/g<CR>`z
 nnoremap <silent> <leader>u mzYp:s/./-/g<CR>`z
+nnoremap <silent> <leader>o :s!/!::!g<CR>:s!\.pm\>!!g<CR>
 set guicursor=a:block-Cursor
 nmap ,c 0f]0 j,c
+
+" allow toggling between local and default mode
+function TabToggle()
+  if &expandtab
+    set noexpandtab
+  else
+    set expandtab
+  endif
+endfunction
+nnoremap <silent> <leader>g mz:execute TabToggle()<CR>`z
 
 au GUIEnter * hi Cursor guibg=white
 au InsertLeave * set guicursor=a:block-Cursor
@@ -501,7 +511,7 @@ execute 'set path+=' . substitute($PERL5LIB, ':', ',', 'g')
 
 " Insert common Perl code structures...
 
-iab udd use Data::Dumper 'Dumper';<CR>warn Dumper [];<ESC>hi
+iab udd use Data::Dumper 'Dumper';<CR>warn Dumper([]);jk
 iab uds use Data::Show;<CR>show
 iab ubm use Benchmark qw( cmpthese );<CR><CR>cmpthese -10, {<CR>};<ESC>O
 iab usc use Smart::Comments;<CR>###
@@ -743,7 +753,6 @@ endfunction
 
 "=====[ Tab handling ]======================================
 
-set expandtab      "Convert all tabs that are typed into spaces
 set shiftround     "Always indent/outdent to nearest tabstop
 set smarttab       "Use shiftwidths at left margin, tabstops everywhere else
 
