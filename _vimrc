@@ -168,7 +168,6 @@ autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echo
 
 let mapleader = ';'
 "vim_please_jump_to_this_location
-nnoremap <silent> <leader>a :set invlist<CR>
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
 
 nnoremap <F2> :set invpaste paste?<CR>
@@ -176,18 +175,8 @@ set pastetoggle=<F2>
 set showmode
 
 nnoremap <silent> Q :q!<CR>
-nnoremap <silent> <leader>b :!chmod 700 %;./%<CR>
-nnoremap <silent> <leader>c :!perl -c %<CR>
-nnoremap <silent> <leader>r :r!cat<CR>
-nnoremap <silent> <leader>e ma:!chmod 700 ./%<CR><CR>:r!type perl<CR>ct/#!<ESC>ddggP`a
 nnoremap <silent> <leader>x :!x r<CR>
-nnoremap <silent> <leader>s :source $MYVIMRC<CR>
-nnoremap <silent> <leader>w :w<CR>
-nnoremap <silent> <leader>f :silent! call FindeyFind()<cr>
 nnoremap <silent> <leader>h :call <SID>ListMappings()<CR>
-nnoremap <silent> <leader>d mzYp:s/./=/g<CR>`z
-nnoremap <silent> <leader>u mzYp:s/./-/g<CR>`z
-nnoremap <silent> <leader>o :s!/!::!g<CR>:s!\.pm\>!!g<CR>
 set guicursor=a:block-Cursor
 nmap ,c 0f]0 j,c
 
@@ -199,7 +188,6 @@ function TabToggle()
     set expandtab
   endif
 endfunction
-nnoremap <silent> <leader>g mz:execute TabToggle()<CR>`z
 
 au GUIEnter * hi Cursor guibg=white
 au InsertLeave * set guicursor=a:block-Cursor
@@ -687,8 +675,8 @@ iab hbr #! /Users/damian/bin/rakudo*<CR>use v6;
 
 
 " Execute current file polymorphically...
-Nnoremap ,, [Execute current file] :w<CR>:!clear;echo;echo;run %<CR>
-Nnoremap ,,, [Debug current file]  :w<CR>:!clear;echo;echo;run -d %<CR>
+"Nnoremap ,, [Execute current file] :w<CR>:!clear;echo;echo;run %<CR>
+"Nnoremap ,,, [Debug current file]  :w<CR>:!clear;echo;echo;run -d %<CR>
 
 
 "=====[ Show help files in a new tab, plus add a shortcut for helpg ]==============
@@ -832,6 +820,19 @@ function! ToggleBlock () range
 endfunction
 
 " Set up the relevant mappings
+Nnoremap <silent> ;a [Toggle display tabs]  :set invlist<CR>
+Nnoremap <silent> ;b [Execute current file]  :!chmod 700 %;./%<CR>
+Nnoremap <silent> ;c [Compile current Perl program]  :!perl -c %<CR>
+Nnoremap <silent> ;d [Double underline]  mzYp:s/./=/g<CR>`z
+Nnoremap <silent> ;r [Begin paste to current location]  :r!cat<CR>
+Nnoremap <silent> ;f [Find permanent mark]  :silent! call FindeyFind()<cr>
+Nnoremap <silent> ;g [Toggle use tabs]  mz:execute TabToggle()<CR>`z
+Nnoremap <silent> ;s [Source .vimrc]  :source $MYVIMRC<CR>
+Nnoremap <silent> ;w [Write file]  :w<CR>
+Nnoremap <silent> ;u [Underline]  mzYp:s/./-/g<CR>`z
+Nnoremap <silent> ;o [Fix module name]  :s!/!::!g<CR>:s!\.pm\>!!g<CR>
+Nnoremap <silent> ;i [Tabs to spaces & remove trailing whitespace]  mz:set expandtab<CR>:retab<CR>:%s/\s\+$//<CR>`z
+
 Nnoremap <silent> #  [Toggle Comment]  :call ToggleComment()<CR>j0
 vnoremap <silent> # :call ToggleBlock()<CR>
 
