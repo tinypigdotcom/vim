@@ -67,6 +67,7 @@ set listchars=tab:>-,trail:.
 set backup
 set writebackup
 set nocompatible
+set expandtab
 set nohlsearch
 set swapfile
 set nonumber
@@ -184,8 +185,10 @@ nmap ,c 0f]0 j,c
 function TabToggle()
   if &expandtab
     set noexpandtab
+    echom "TabToggle: use tabs"
   else
     set expandtab
+    echom "TabToggle: don't use tabs"
   endif
 endfunction
 
@@ -415,10 +418,6 @@ function! ShiftLine()
     normal! >>
     set smartindent
 endfunction
-
-"====[ I hate modelines ]===================
-
-set modelines=0
 
 "=====[ Toggle syntax highlighting ]==============================
 
