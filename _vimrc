@@ -24,7 +24,7 @@ let loaded_matchparen = 1 " disable matching parens
 cnoremap jk <c-c>
 cnoremap <esc> <nop>
 inoremap jk <esc>
-inoremap <esc> <nop>
+"inoremap <esc> <nop> " sometimes causes escape codes instead of capital letter and space
 vnoremap jk <esc>
 "vnoremap <esc> <nop> " this breaks shift tab to go back an indent level
 noremap : ;
