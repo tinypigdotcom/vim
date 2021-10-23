@@ -170,6 +170,8 @@ autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echo
 let mapleader = ';'
 "vim_please_jump_to_this_location
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
+nnoremap <silent> <leader>t i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
+inoremap <silent> <leader>t <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
