@@ -19,6 +19,14 @@
 
 set statusline=%f%m\ %=Current:\ %-4l\ Total:\ %-4L
 
+set fileencoding=utf-8
+set termencoding=utf-8
+set encoding=utf-8
+
+set guifont=Monaco:h11
+set guifontwide=NSimsun:h12
+
+
 let loaded_matchparen = 1 " disable matching parens
 
 cnoremap jk <c-c>
@@ -30,8 +38,8 @@ vnoremap jk <esc>
 noremap : ;
 noremap ; :
 nmap <space> <c-space>
-nnoremap <silent> <space> ma:s/^\[ \] /[C] /e<CR>:s/^\[X\] /[ ] /e<CR>:s/^\[C\] /[X] /e<CR>:s/^\([^[]\)/[ ] \1/e<CR>`a
-vnoremap <silent> <space> ma:s/^\[ \] /[C] /e<CR>:'<,'>s/^\[X\] /[ ] /e<CR>:'<,'>s/^\[C\] /[X] /e<CR>:'<,'>s/^\([^[]\)/[ ] \1/e<CR>`a
+nnoremap <silent> <space> ma:s/^\[ \] /[C] /e<CR>:s/^\[X\] /[ ] /e<CR>:s/^\[C\] /[X] /e<CR>:s/^\([^[]\)/[ ] \1/e<CR>`a/'''<CR>
+vnoremap <silent> <space> ma:s/^\[ \] /[C] /e<CR>:'<,'>s/^\[X\] /[ ] /e<CR>:'<,'>s/^\[C\] /[X] /e<CR>:'<,'>s/^\([^[]\)/[ ] \1/e<CR>`a/'''<CR>
 
 map z @az
 
@@ -63,12 +71,13 @@ set textwidth=78
 set keywordprg=:help
 set laststatus=2
 set list
-set listchars=tab:>-,trail:.
+set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set encoding=utf8
 set backup
 set writebackup
 set nocompatible
-set expandtab
-set nohlsearch
+set noexpandtab
+set hlsearch
 set swapfile
 set nonumber
 set ruler
@@ -170,8 +179,6 @@ autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echo
 let mapleader = ';'
 "vim_please_jump_to_this_location
 nnoremap <silent> <leader>o :set noautoindent<CR>:set nosmartindent<CR>
-nnoremap <silent> <leader>t i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
-inoremap <silent> <leader>t <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -362,9 +369,8 @@ vnoremap s                         :s//g<LEFT><LEFT>
 
 "====[ Handle encoding issues ]============
 
-set encoding=latin1
-
-Nnoremap <silent> ,u [Toggle UTF8]  :call ToggleUTF8()<CR>
+"I don't think we want this actually
+"Nnoremap <silent> ,u [Toggle UTF8]  :call ToggleUTF8()<CR>
 
 function! ToggleUTF8 ()
     if &fileencoding =~ 'utf-\?8'
@@ -500,7 +506,7 @@ execute 'set path+=' . substitute($PERL5LIB, ':', ',', 'g')
 
 " Insert common Perl code structures...
 
-iab udd use Data::Dumper 'Dumper';<CR>warn Dumper([]);jk
+iab udd jkiuse lib '/home/web/lib'; use LIQ::DMB;<CR>dmblog([<CR>]);jkO<TAB>{
 iab uds use Data::Show;<CR>show
 iab ubm use Benchmark qw( cmpthese );<CR><CR>cmpthese -10, {<CR>};<ESC>O
 iab usc use Smart::Comments;<CR>###
@@ -823,14 +829,15 @@ endfunction
 " Set up the relevant mappings
 Nnoremap <silent> ;a [Toggle display tabs]  :set invlist<CR>
 Nnoremap <silent> ;b [Execute current file]  :!chmod 700 %;./%<CR>
-Nnoremap <silent> ;c [Compile current Perl program]  :!perl -c %<CR>
-Nnoremap <silent> ;d [Double underline]  mzYp:s/./=/g<CR>`z
+"Nnoremap <silent> ;c [Compile current Perl program]  :!perl -c %<CR>
+Nnoremap <silent> ;d [Double underline]  mzYp:s/./=/g<CR>`z/clear_highlightss<CR>
 Nnoremap <silent> ;r [Begin paste to current location]  :r!cat<CR>
 Nnoremap <silent> ;f [Find permanent mark]  :silent! call FindeyFind()<cr>
 Nnoremap <silent> ;g [Toggle use tabs]  mz:execute TabToggle()<CR>`z
+Nnoremap <silent> ;j [Clear Highlights]  /clear_highlightss<CR>
 Nnoremap <silent> ;s [Source .vimrc]  :source $MYVIMRC<CR>
 Nnoremap <silent> ;w [Write file]  :w<CR>
-Nnoremap <silent> ;u [Underline]  mzYp:s/./-/g<CR>`z
+Nnoremap <silent> ;u [Underline]  mzYp:s/./-/g<CR>`z/clear_highlightss<CR>
 Nnoremap <silent> ;o [Fix module name]  :s!/!::!g<CR>:s!\.pm\>!!g<CR>
 Nnoremap <silent> ;i [Tabs to spaces & remove trailing whitespace]  mz:set expandtab<CR>:retab<CR>:%s/\s\+$//<CR>`z
 
@@ -958,4 +965,3 @@ function! s:align()
 endfunction
 
 execute pathogen#infect()
-
